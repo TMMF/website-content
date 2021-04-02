@@ -1,5 +1,12 @@
 [
   {
+    "id": "react-re-mounting-vs-re-rendering",
+    "title": "React Re-Mounting vs. Re-Rendering",
+    "timestamp": 1604684100000,
+    "readTime": 600000,
+    "description": "Whether working with simple React applications or complex ones, you'll often run into issues related to rendering and mounting of components. Read this article to understand the differences more and how to use them to your advantage."
+  },
+  {
     "id": "test",
     "title": "Test Title",
     "timestamp": 1616735401064,
