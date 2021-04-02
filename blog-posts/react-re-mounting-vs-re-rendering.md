@@ -85,11 +85,11 @@ Let's say that we have a web app that allows you to manage multiple users. Each 
 
 ```tsx
 const User = (props) => {
-	...
+  ...
   return (
     <>
       <Counter name={props.name} />
-			...
+      ...
     </>
   )
 }
@@ -108,9 +108,9 @@ const Counter = (props) => {
   const [count, setCount] = useState(0)
   const increment = () => setCount(count + 1)
   
-	useEffect(() => {
-		setCount(0)
-	}, [props.name])
+  useEffect(() => {
+    setCount(0)
+  }, [props.name])
 
   ...
 ```
@@ -130,8 +130,8 @@ For our example, we'll do a simple cache just to show the basics. To start, we w
 ```tsx
 const cache = {}
 const Counter = (props) => {
-	const [count, setCount] = useState(cache[props.name] ?? 0)
-	const increment = () => setCount(count + 1)
+  const [count, setCount] = useState(cache[props.name] ?? 0)
+  const increment = () => setCount(count + 1)
   ...
 ```
 
@@ -140,10 +140,10 @@ Now we want a way to update the cache when the component’s `name` prop changes
 ```tsx
 const cache = {}
 const Counter = (props) => {
-	const [count, setCount] = useState(cache[props.name] ?? 0)
-	const increment = () => setCount(count + 1)
+  const [count, setCount] = useState(cache[props.name] ?? 0)
+  const increment = () => setCount(count + 1)
 
-	useEffect(() => {
+  useEffect(() => {
     setCount(cache[props.name] ?? 0)
 
     return () => {
@@ -151,7 +151,7 @@ const Counter = (props) => {
     };
   }, [props.name])
 
-	...
+  ...
 ```
 
 This `useEffect` will also run during mount and likewise the cleanup function will run during unmount. 
@@ -163,23 +163,23 @@ To solve this issue, we can use the `useRef` hook in order to use its mutative `
 ```tsx
 const cache = {}
 const Counter = (props) => {
-	const [count, setCount] = useState(cache[props.name] ?? 0)
-	const countRef = useRef(count)
-	const increment = () => {
+  const [count, setCount] = useState(cache[props.name] ?? 0)
+  const countRef = useRef(count)
+  const increment = () => {
     setCount(count + 1)
     countRef.current++
   }
 
-	useEffect(() => {
+  useEffect(() => {
     setCount(cache[props.name] ?? 0)
-		countRef.current = cache[props.name] ?? 0
+    countRef.current = cache[props.name] ?? 0
 
     return () => {
       cache[props.name] = countRef.current
     };
   }, [props.name])
 
-	...
+  ...
 ```
 
 Now the cleanup function for the `useEffect` will always use the most up-to-date data for `count` when setting the cache's value. This is the approach used within [the codesandbox link](https://codesandbox.io/s/cocky-water-7rz6g) from before for the "Replicating Re-Rendering" section.
